@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     itemBuilder: (buildcontext, index) {
                       return Slidable(
                         actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.25,
+                        actionExtentRatio: 0.20,
                         child: Card(
                             color: Colors.amber,
                             borderOnForeground: true,
