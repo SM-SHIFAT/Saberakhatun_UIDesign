@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/home3.dart';
+import 'package:myapp/pages/new_home_screen.dart';
 
 //import 'pages/home_screen.dart';
 import 'pages/splash_screen.dart';
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
       //  ThemeData(
       //   primarySwatch: Colors.purple,
       // ),
-      home: SplashScreen(),
+      home: DashBoardScreen(), //SplashScreen(),
     );
   }
 }

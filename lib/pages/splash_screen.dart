@@ -1,4 +1,6 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/services/page_navigate_service.dart';
 
 import 'login.dart';
 
@@ -12,11 +14,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-      );
+    Future.delayed(Duration(seconds: 5)).then((value) {
+      navigateToNextScreen(context, LoginScreen());
     });
     super.initState();
   }
@@ -34,12 +33,20 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              "NewsToday",
-              style: TextStyle(
-                fontSize: 36,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            Container(
+              color: Colors.white,
+              child: TextLiquidFill(
+                text: "NewsToday",
+                waveColor: Colors.amber,
+                boxBackgroundColor: Colors.blue,
+                loadDuration: Duration(seconds: 4),
+                waveDuration: Duration(seconds: 1),
+                textStyle: TextStyle(
+                  fontSize: 47,
+                  //color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                boxHeight: 300.0,
               ),
             ),
             SizedBox(
