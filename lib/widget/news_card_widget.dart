@@ -6,6 +6,8 @@ class NewsCardWidget extends StatelessWidget {
   final String? subTitle;
   final IconData? icon;
   final Color? iconColor;
+  final void Function()? imageOnTap;
+  final Object heroTag;
 
   const NewsCardWidget({
     Key? key,
@@ -14,6 +16,8 @@ class NewsCardWidget extends StatelessWidget {
     this.subTitle,
     this.icon,
     this.iconColor,
+    this.imageOnTap,
+    required this.heroTag,
   }) : super(key: key);
 
   @override
@@ -22,16 +26,24 @@ class NewsCardWidget extends StatelessWidget {
       elevation: 10,
       child: Container(
         child: ListTile(
-          leading: Card(
-            elevation: 10,
-            child: Container(
-              width: 80,
-              height: 60,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage("$imageUrl"),
+          leading: Hero(
+            tag: heroTag,
+            child: Material(
+              child: InkWell(
+                onTap: imageOnTap,
+                child: Card(
+                  elevation: 10,
+                  child: Container(
+                    width: 80,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage("$imageUrl"),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/fashion_dashboard.dart';
 import 'package:myapp/pages/home3.dart';
 import 'package:myapp/pages/new_home_screen.dart';
+import 'package:myapp/pages/testScreen.dart';
 
-//import 'pages/home_screen.dart';
+import 'pages/container_test.dart';
+import 'pages/container_testview.dart';
+import 'pages/fashion_dashboard_view.dart';
+import 'pages/home_screen.dart';
+import 'pages/login.dart';
+import 'pages/news_view.dart';
 import 'pages/splash_screen.dart';
 
 void main() {
@@ -19,7 +26,11 @@ class MyApp extends StatelessWidget {
       //  ThemeData(
       //   primarySwatch: Colors.purple,
       // ),
-      home: DashBoardScreen(), //SplashScreen(),
+      home: ContainerTestView(),
+      //FashionDashboard(),
+      // FashionImageShow(),
+      //TestScreen(), //LoginScreen(), //SplashScreen(),
+      //NewsView(),
     );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/home3.dart';
+import 'package:myapp/services/exit_pop_service.dart';
 import 'package:myapp/services/form_validation.dart';
+import 'package:myapp/services/page_navigate_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -106,6 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         if (validateAndSave(_formkey)) {
                           print("Logged In");
+                          navigateToNextScreen(
+                              context, ExitPopService(DashBoardScreen()));
                         } else {
                           print("Not Logged In");
                         }

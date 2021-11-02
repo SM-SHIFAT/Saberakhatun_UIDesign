@@ -1,5 +1,12 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:myapp/pages/card_imageview_screen.dart';
+import 'package:myapp/services/page_navigate_service.dart';
+import 'package:myapp/services/url_services.dart';
 import 'package:myapp/widget/news_card_widget.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -13,34 +20,56 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   List bannerImage = [
     {
       "name": "Rahim",
-      "age": "23",
+      "age": 23,
       "nationality": "Bangladeshi",
+      "image":
+          "https://thumbs.dreamstime.com/b/autumn-fall-nature-scene-autumnal-park-beautiful-77869343.jpg",
     },
     {
       "name": "Ramesh",
-      "age": "22",
+      "age": 22,
       "nationality": "Indian",
+      "image":
+          "https://image.shutterstock.com/image-photo/3d-wallpaper-design-waterfall-sea-260nw-1380925703.jpg",
     },
     {
       "name": "Alex",
-      "age": "27",
+      "age": 24,
       "nationality": "USA",
+      "image": "https://cdn.wallpapersafari.com/1/17/ZMBC10.jpg",
     },
     {
       "name": "Alex",
-      "age": "27",
+      "age": 27,
       "nationality": "USA",
+      "image":
+          "https://cdn.pixabay.com/photo/2021/08/25/20/42/field-6574455__480.jpg",
     },
   ];
 
   int _current = 0;
+
   CarouselController buttonCarouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
+      appBar: AppBar(
+        title: Text("DashBoard"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              //launchURL("https://pub.dev/packages/url_launcher");
+              launchURL("tel://563456");
+            },
+            icon: Icon(Icons.notifications),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Container(
           height: _height,
@@ -52,9 +81,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
                       height: 220.0,
-                      autoPlay: true,
+                      autoPlay: false,
                       onPageChanged: (index, reason) {
                         print("Page Changed $index");
+
                         print("Current number = $_current");
                         setState(() {
                           _current = index;
@@ -75,7 +105,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: NetworkImage(
-                                      "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg",
+                                      "${banner["image"]}",
                                     ),
                                   ),
                                 ),
@@ -168,6 +198,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               SizedBox(
                 height: 20,
               ),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: ListView.builder(
                     padding: EdgeInsets.all(10),
@@ -176,11 +209,25 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     itemBuilder: (buildContext, index) {
                       var bannerDetails = bannerImage[index];
                       return NewsCardWidget(
-                        imageUrl:
-                            "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821__340.jpg",
-                        title: "${bannerDetails["name"]}",
-                        subTitle: "${bannerDetails["nationality"]}.",
-                        icon: Icons.book,
+                        imageUrl: "${bannerDetails["image"]}",
+                        title: "${bannerDetails["nationality"]}",
+                        subTitle: "${bannerDetails["name"]}",
+                        icon: Icons.arrow_forward_ios,
+                        iconColor: bannerDetails["age"] > 23
+                            ? Colors.red
+                            : Colors.green,
+                        heroTag: bannerImage.indexOf(bannerDetails).toString(),
+                        imageOnTap: () {
+                          print(bannerImage.indexOf(bannerDetails));
+                          navigateToNextScreen(
+                              context,
+                              CardImageViewScreen(
+                                heroTag: bannerImage
+                                    .indexOf(bannerDetails)
+                                    .toString(),
+                                data: bannerDetails,
+                              ));
+                        },
                       );
                     }),
               ),
