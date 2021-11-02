@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-enum BannerPosition { left, right }
+//enum BannerPosition { left, right }
 
 class BannerListTile extends StatelessWidget {
   final bool? bannerPositionRight;
@@ -14,6 +14,8 @@ class BannerListTile extends StatelessWidget {
   final Widget? subtitle;
   final BorderRadius? borderRadius;
   final Widget? imageContainer;
+  final double? imageContainerSize;
+  final int? imageContainerShapeZigzagIndex;
   final Widget? trailing;
   final double? trailingBoxwidth;
   final double? width;
@@ -39,6 +41,8 @@ class BannerListTile extends StatelessWidget {
     this.subtitle,
     this.borderRadius,
     this.imageContainer,
+    this.imageContainerSize = 80.0,
+    this.imageContainerShapeZigzagIndex,
     this.trailing,
     this.trailingBoxwidth,
     this.backgroundColor = const Color(0xff003354),
@@ -63,18 +67,33 @@ class BannerListTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: ClipPath(
-                        clipper: ImageBoxClipper(),
-                        child: Container(
-                          height: 90,
-                          width: 90,
-                          color: Colors.white,
-                          child: imageContainer,
-                        ),
-                      ),
-                    ),
+                    imageContainer != null
+                        ? Align(
+                            alignment: Alignment.topLeft,
+                            child: ClipPath(
+                              clipper: ImageBoxClipper(
+                                  imageContainerShapeZigzagIndex),
+                              child: Container(
+                                height: imageContainerSize == null
+                                    ? 80
+                                    : imageContainerSize! > 190
+                                        ? 190
+                                        : imageContainerSize! < 80
+                                            ? 80
+                                            : imageContainerSize, //90 imageContainerSize
+                                width: imageContainerSize == null
+                                    ? 80
+                                    : imageContainerSize! > 190
+                                        ? 190
+                                        : imageContainerSize! < 80
+                                            ? 80
+                                            : imageContainerSize,
+                                color: Colors.white,
+                                child: imageContainer,
+                              ),
+                            ),
+                          )
+                        : SizedBox(width: 12),
                     Flexible(
                       fit: FlexFit.loose,
                       child: Container(
@@ -106,7 +125,7 @@ class BannerListTile extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 80,
+                                  height: 70, //80
                                 )
                               ],
                             ),
@@ -121,20 +140,22 @@ class BannerListTile extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (trailing !=
-                        null) //                          >Trailing portion
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: Container(
-                            alignment: Alignment.center,
-                            height: 90,
-                            width: trailingBoxwidth != null
-                                ? trailingBoxwidth! < 50
-                                    ? 50
-                                    : trailingBoxwidth
-                                : 50,
-                            child: trailing ?? SizedBox(width: 0, height: 0)),
-                      ),
+                    trailing != null
+                        ? //                          >Trailing portion
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Container(
+                                alignment: Alignment.center,
+                                height: 80, //90
+                                width: trailingBoxwidth != null
+                                    ? trailingBoxwidth! < 50
+                                        ? 50
+                                        : trailingBoxwidth
+                                    : 50,
+                                child:
+                                    trailing ?? SizedBox(width: 0, height: 0)),
+                          )
+                        : SizedBox(width: 12),
                   ],
                 ),
                 if (showBanner ==
@@ -154,14 +175,18 @@ class BannerListTile extends StatelessWidget {
                         ),
                         height: bannersize == null
                             ? 40
-                            : bannersize! > 90 || bannersize! < 40
-                                ? 40
-                                : bannersize, //40
+                            : bannersize! >= 80
+                                ? 80
+                                : bannersize! <= 40
+                                    ? 40.0
+                                    : bannersize!, //40
                         width: bannersize == null
                             ? 40
-                            : bannersize! > 90 || bannersize! < 40
-                                ? 40
-                                : bannersize,
+                            : bannersize! >= 80
+                                ? 80
+                                : bannersize! <= 40
+                                    ? 40.0
+                                    : bannersize!,
                         child: Align(
                             //                                     >Banner alignment
                             alignment: bannerPositionRight == false
@@ -175,14 +200,18 @@ class BannerListTile extends StatelessWidget {
                               child: Container(
                                 height: bannersize == null
                                     ? 30
-                                    : bannersize! > 90 || bannersize! < 40
-                                        ? 30
-                                        : (30.0 * bannersize!) / 40.0, //30
+                                    : bannersize! >= 80
+                                        ? (30.0 * 80.0) / 40.0
+                                        : bannersize! <= 40
+                                            ? (30.0 * 40.0) / 40.0
+                                            : (30.0 * bannersize!) / 40.0, //30
                                 width: bannersize == null
                                     ? 30
-                                    : bannersize! > 90 || bannersize! < 40
-                                        ? 30
-                                        : (30.0 * bannersize!) / 40.0,
+                                    : bannersize! >= 80
+                                        ? (30.0 * 80.0) / 40.0
+                                        : bannersize! <= 40
+                                            ? (30.0 * 40.0) / 40.0
+                                            : (30.0 * bannersize!) / 40.0,
                                 child: FittedBox(
                                     alignment: Alignment.center,
                                     fit: BoxFit.contain,
@@ -215,13 +244,26 @@ class BannerListTile extends StatelessWidget {
 
 //Custom image container shape
 class ImageBoxClipper extends CustomClipper<Path> {
+  final int? shapeindex;
+
+  ImageBoxClipper(this.shapeindex);
   @override
   Path getClip(Size size) {
     var path = Path();
 
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width * 0.85, size.height);
-    path.lineTo(0, size.height);
+    if (shapeindex == null) {
+      path.lineTo(size.width, 0);
+      path.lineTo(size.width * 0.85, size.height);
+      path.lineTo(0, size.height);
+    } else if (shapeindex! % 2 == 0) {
+      path.lineTo(size.width, 0);
+      path.lineTo(size.width * 0.85, size.height);
+      path.lineTo(0, size.height);
+    } else {
+      path.lineTo(size.width * 0.85, 0);
+      path.lineTo(size.width, size.height);
+      path.lineTo(0, size.height);
+    }
 
     return path;
   }

@@ -34,9 +34,9 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                   bannerPositionRight: true,
                   backgroundColor: Colors.blue,
                   borderRadius: BorderRadius.circular(8),
-                  imageContainer: Image(
-                      image: AssetImage("assets/image/model.jpg"),
-                      fit: BoxFit.cover),
+                  // imageContainer: Image(
+                  //     image: AssetImage("assets/image/model.jpg"),
+                  //     fit: BoxFit.cover),
                   title: Text(
                     text,
                     style: TextStyle(fontSize: 24, color: Colors.black),
@@ -45,20 +45,23 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                     "Monalisa  MonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa",
                     style: TextStyle(fontSize: 13, color: Colors.black),
                   ),
-                  trailing: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          text =
-                              "MMoMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisanalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa";
-                        });
-                      },
-                      icon: Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                      )),
+                  // trailing: IconButton(
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         text =
+                  //             "MMoMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisanalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa";
+                  //       });
+                  //     },
+                  //     icon: Icon(
+                  //       Icons.cancel,
+                  //       color: Colors.red,
+                  //     )),
                 ),
                 SizedBox(height: 4),
                 BannerListTile(
+                  bannersize: 100,
+                  imageContainerSize: 80,
+                  imageContainerShapeZigzagIndex: 0,
                   backgroundColor: Colors.blue,
                   borderRadius: BorderRadius.circular(8),
                   imageContainer: Image(
@@ -82,6 +85,7 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                 SizedBox(height: 4),
                 // //
                 BannerListTile(
+                  imageContainerShapeZigzagIndex: 1,
                   bannerPositionRight: true,
                   borderRadius: BorderRadius.circular(8),
                   imageContainer: Image(
@@ -146,9 +150,9 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                 SizedBox(height: 4),
                 ListTile(
                   tileColor: Colors.blue,
-                  leading: Image(
-                      image: AssetImage("assets/image/model.jpg"),
-                      fit: BoxFit.cover),
+                  // leading: Image(
+                  //     image: AssetImage("assets/image/model.jpg"),
+                  //     fit: BoxFit.cover),
                   title: Text(
                     "Modelllll",
                   ),
