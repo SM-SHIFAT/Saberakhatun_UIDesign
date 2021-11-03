@@ -90,17 +90,24 @@ class _NewsViewState extends State<NewsView> {
                                               ));
                                         },
                                         onTap: () {
-                                          if (tapped == true) {
-                                            setState(() {
-                                              tapped = false;
+                                          // if (tapped == true) {
+                                          //   setState(() {
+                                          //     tapped = false;
+                                          //     indexx = null;
+                                          //   });
+                                          // } else {
+                                          //   setState(() {
+                                          //     tapped = true;
+                                          //     indexx = index;
+                                          //   });
+                                          // }
+                                          setState(() {
+                                            if (indexx == index) {
                                               indexx = null;
-                                            });
-                                          } else {
-                                            setState(() {
-                                              tapped = true;
+                                            } else {
                                               indexx = index;
-                                            });
-                                          }
+                                            }
+                                          });
                                         },
                                         child: Card(
                                           shadowColor: Colors.blue,
@@ -109,24 +116,15 @@ class _NewsViewState extends State<NewsView> {
                                             children: [
                                               ListTile(
                                                 tileColor: index == indexx
-                                                    ? tapped
-                                                        ? Colors.amber[400]
-                                                        : Colors
-                                                            .greenAccent[400]
+                                                    ? Colors.amber[400]
                                                     : Colors.greenAccent[400],
                                                 title: Text(
                                                   snapshot.data!.articles[index]
                                                       .title,
-                                                  maxLines: index == index
-                                                      ? tapped
-                                                          ? null
-                                                          : 1
-                                                      : 1,
+                                                  maxLines:
+                                                      index == index ? null : 1,
                                                   overflow: index == indexx
-                                                      ? tapped
-                                                          ? null
-                                                          : TextOverflow
-                                                              .ellipsis
+                                                      ? null
                                                       : TextOverflow.ellipsis,
                                                 ),
                                                 subtitle: Text(
@@ -134,11 +132,8 @@ class _NewsViewState extends State<NewsView> {
                                                       .published,
                                                 ),
                                                 trailing: index == indexx
-                                                    ? tapped
-                                                        ? Icon(Icons
-                                                            .arrow_drop_up_sharp)
-                                                        : Icon(Icons
-                                                            .arrow_drop_down_sharp)
+                                                    ? Icon(Icons
+                                                        .arrow_drop_up_sharp)
                                                     : Icon(Icons
                                                         .arrow_drop_down_sharp),
                                               ),
