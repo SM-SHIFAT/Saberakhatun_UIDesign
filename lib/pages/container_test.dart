@@ -17,6 +17,7 @@ class BannerListTile extends StatelessWidget {
   final double? imageContainerSize;
   final int? imageContainerShapeZigzagIndex;
   final Widget? trailing;
+  final bool? centerTrailingbyImageboxsize;
   final double? trailingBoxwidth;
   final double? width;
   final double? subtitleOpacity;
@@ -44,6 +45,7 @@ class BannerListTile extends StatelessWidget {
     this.imageContainerSize = 80.0,
     this.imageContainerShapeZigzagIndex,
     this.trailing,
+    this.centerTrailingbyImageboxsize = true,
     this.trailingBoxwidth,
     this.backgroundColor = const Color(0xff003354),
     this.width,
@@ -146,7 +148,10 @@ class BannerListTile extends StatelessWidget {
                             alignment: Alignment.topRight,
                             child: Container(
                                 alignment: Alignment.center,
-                                height: 80, //90
+                                height: centerTrailingbyImageboxsize == null ||
+                                        centerTrailingbyImageboxsize == false
+                                    ? 80
+                                    : imageContainerSize, //80
                                 width: trailingBoxwidth != null
                                     ? trailingBoxwidth! < 50
                                         ? 50

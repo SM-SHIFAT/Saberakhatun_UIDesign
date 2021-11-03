@@ -59,8 +59,9 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                 ),
                 SizedBox(height: 4),
                 BannerListTile(
-                  bannersize: 100,
-                  imageContainerSize: 80,
+                  bannersize: 30,
+                  imageContainerSize: 150,
+                  centerTrailingbyImageboxsize: null,
                   imageContainerShapeZigzagIndex: 0,
                   backgroundColor: Colors.blue,
                   borderRadius: BorderRadius.circular(8),

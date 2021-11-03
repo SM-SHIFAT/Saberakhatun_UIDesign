@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
       //  ThemeData(
       //   primarySwatch: Colors.purple,
       // ),
-      home: //ContainerTestView(),
-          //FashionDashboard(),
-          // FashionImageShow(),
-          //TestScreen(), //LoginScreen(), //SplashScreen(),
-          NewsView(),
+      home: ContainerTestView(),
+      //FashionDashboard(),
+      // FashionImageShow(),
+      //TestScreen(), //LoginScreen(), //SplashScreen(),
+      //NewsView(),
     );
   }
 }
