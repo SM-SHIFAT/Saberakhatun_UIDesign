@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/apiservice/news_api_service.dart';
 import 'package:myapp/model/top_headline_model.dart';
+import 'package:myapp/services/page_navigate_service.dart';
+import 'package:myapp/services/webview.dart';
 
 class NewsView extends StatefulWidget {
   const NewsView({Key? key}) : super(key: key);
@@ -10,9 +12,9 @@ class NewsView extends StatefulWidget {
 }
 
 class _NewsViewState extends State<NewsView> {
+  bool tapped = false;
+  int? indexx;
   late Future<TopHeadlineModel> futureTopheadlineModel;
-  String text = "";
-  String time = "";
   @override
   void initState() {
     futureTopheadlineModel = NewsApiService().getTopHeadlines();
@@ -30,51 +32,131 @@ class _NewsViewState extends State<NewsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: [
-            Text(text),
-            Text(time),
-          ],
-        ),
-      ),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.height,
-          child: FutureBuilder<TopHeadlineModel>(
-              future: futureTopheadlineModel,
-              builder: (buildContext, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    return Center(child: Text("offline"));
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+    Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder<TopHeadlineModel>(
+                future: futureTopheadlineModel,
+                builder: (buildContext, snapshot) {
+                  if (!snapshot.hasError) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return Center(child: Text("offline"));
+                      case ConnectionState.waiting:
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
 
-                  default:
-                    if (!snapshot.hasError) {
-                      // setState(() {
-                      //   text = snapshot.data!.feed.subtitle;
-                      //   time = snapshot.data!.feed.updated;
-                      // });
-                      return Column(
-                        children: [
-                          ListTile(
-                              title: Text(snapshot.data!.articles[1].title),
-                              subtitle: Text(snapshot.data!.articles[1].link),
-                              isThreeLine: true,
-                              trailing: Text(
-                                snapshot.data!.articles[1].published,
-                              ))
-                        ],
-                      );
-                    } else {
-                      return Text(snapshot.error.toString());
+                      default:
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              color: Colors.blue,
+                              width: size.width,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    snapshot.data!.feed.subtitle,
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                  ),
+                                  Text(
+                                    snapshot.data!.feed.updated,
+                                    style: TextStyle(color: Colors.white60),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: ListView.builder(
+                                  itemCount: snapshot.data!.articles.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (buildContext, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, bottom: 2, right: 8),
+                                      child: GestureDetector(
+                                        onLongPress: () {
+                                          navigateToNextScreen(
+                                              context,
+                                              WebViewExample(
+                                                initialUrl: snapshot
+                                                    .data!.articles[index].link,
+                                              ));
+                                        },
+                                        onTap: () {
+                                          if (tapped == true) {
+                                            setState(() {
+                                              tapped = false;
+                                              indexx = null;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              tapped = true;
+                                              indexx = index;
+                                            });
+                                          }
+                                        },
+                                        child: Card(
+                                          shadowColor: Colors.blue,
+                                          elevation: 5,
+                                          child: Column(
+                                            children: [
+                                              ListTile(
+                                                tileColor: index == indexx
+                                                    ? tapped
+                                                        ? Colors.amber[400]
+                                                        : Colors
+                                                            .greenAccent[400]
+                                                    : Colors.greenAccent[400],
+                                                title: Text(
+                                                  snapshot.data!.articles[index]
+                                                      .title,
+                                                  maxLines: index == index
+                                                      ? tapped
+                                                          ? null
+                                                          : 1
+                                                      : 1,
+                                                  overflow: index == indexx
+                                                      ? tapped
+                                                          ? null
+                                                          : TextOverflow
+                                                              .ellipsis
+                                                      : TextOverflow.ellipsis,
+                                                ),
+                                                subtitle: Text(
+                                                  snapshot.data!.articles[index]
+                                                      .published,
+                                                ),
+                                                trailing: index == indexx
+                                                    ? tapped
+                                                        ? Icon(Icons
+                                                            .arrow_drop_up_sharp)
+                                                        : Icon(Icons
+                                                            .arrow_drop_down_sharp)
+                                                    : Icon(Icons
+                                                        .arrow_drop_down_sharp),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            )
+                          ],
+                        );
                     }
-                }
-              })),
+                  } else {
+                    return Text(snapshot.error.toString());
+                  }
+                })),
+      ),
     );
   }
 }

@@ -37,6 +37,7 @@ dependencies:
   blur: ^3.0.0
   http: ^0.13.4
   banner_listtile: ^1.0.0
+  webview_flutter: ^2.1.2
 
 dev_dependencies:
   flutter_test:
