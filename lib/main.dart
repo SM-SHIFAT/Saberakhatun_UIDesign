@@ -4,6 +4,7 @@ import 'package:myapp/pages/home3.dart';
 import 'package:myapp/pages/new_home_screen.dart';
 import 'package:myapp/pages/testScreen.dart';
 
+import 'pages/News_dashboard.dart';
 import 'pages/container_test.dart';
 import 'pages/container_testview.dart';
 import 'pages/fashion_dashboard_view.dart';
@@ -26,11 +27,13 @@ class MyApp extends StatelessWidget {
       //  ThemeData(
       //   primarySwatch: Colors.purple,
       // ),
-      home: ContainerTestView(),
-      //FashionDashboard(),
-      // FashionImageShow(),
-      //TestScreen(), //LoginScreen(), //SplashScreen(),
-      //NewsView(),
+      home: //BannerListTileExample()
+          //ContainerTestView(),
+          //FashionDashboard(),
+          // FashionImageShow(),
+          //TestScreen(), //LoginScreen(), //SplashScreen(),
+          // NewsView(),
+          NewsDashboard(),
     );
   }
 }

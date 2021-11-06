@@ -33,7 +33,7 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                   trailingBoxwidth: null,
                   bannerPositionRight: true,
                   backgroundColor: Colors.blue,
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(2),
                   // imageContainer: Image(
                   //     image: AssetImage("assets/image/model.jpg"),
                   //     fit: BoxFit.cover),
@@ -45,17 +45,17 @@ class _ContainerTestViewState extends State<ContainerTestView> {
                     "Monalisa  MonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa",
                     style: TextStyle(fontSize: 13, color: Colors.black),
                   ),
-                  // trailing: IconButton(
-                  //     onPressed: () {
-                  //       setState(() {
-                  //         text =
-                  //             "MMoMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisanalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa";
-                  //       });
-                  //     },
-                  //     icon: Icon(
-                  //       Icons.cancel,
-                  //       color: Colors.red,
-                  //     )),
+                  trailing: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          text =
+                              "MMoMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisanalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisaMonalisa";
+                        });
+                      },
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                      )),
                 ),
                 SizedBox(height: 4),
                 BannerListTile(
@@ -192,3 +192,73 @@ class _ContainerTestViewState extends State<ContainerTestView> {
         ));
   }
 }
+
+// class BannerListTileExample extends StatelessWidget {
+//   const BannerListTileExample({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//           body: Padding(
+//         padding: const EdgeInsets.all(8.0),
+//         child: Container(
+//             height: MediaQuery.of(context).size.height,
+//             width: MediaQuery.of(context).size.width,
+//             child: Padding(
+//                 padding: const EdgeInsets.all(4.0),
+//                 child: Center(
+//                   child: Container(
+//                     color: Colors.green,
+//                     child: Row(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         SizedBox(height: 80, width: 80),
+//                         Expanded(
+//                             child: SizedBox(
+//                           child: Stack(
+//                             alignment: AlignmentDirectional.centerStart,
+//                             children: [
+//                               Padding(
+//                                 padding: const EdgeInsets.only(
+//                                   top: 5,
+//                                   bottom: 5,
+//                                   left: 4,
+//                                 ),
+//                                 child: Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                         "Value   data data data data data data data data data data data data data data data data data data data data data data "),
+//                                     Text(
+//                                         "Value   data data data data data data data data data data data data data data data data data data data data data data "),
+//                                   ],
+//                                 ),
+//                               )
+//                             ],
+//                           ),
+//                         )),
+//                         // Column(
+//                         //   children: [
+//                         //     SizedBox(
+//                         //       child: Text(
+//                         //           "data data data data data data data data data data data data data data data data data data data data data data "),
+//                         //     ),
+//                         //     SizedBox(
+//                         //       child: Text("meta"),
+//                         //     )
+//                         //   ],
+//                         // ),
+//                         SizedBox(
+//                           height: 80,
+//                           width: 50,
+//                           child: Icon(Icons.ac_unit),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+//                 ))),
+//       )),
+//     );
+//   }
+// }

@@ -20,6 +20,7 @@ class BannerListTile extends StatelessWidget {
   final bool? centerTrailingbyImageboxsize;
   final double? trailingBoxwidth;
   final double? width;
+  final double? height;
   final double? subtitleOpacity;
   final double? bannersize;
   final bool? randomBackgroundColor; //Change background color randomly
@@ -48,6 +49,7 @@ class BannerListTile extends StatelessWidget {
     this.centerTrailingbyImageboxsize = true,
     this.trailingBoxwidth,
     this.backgroundColor = const Color(0xff003354),
+    this.height,
     this.width,
     this.randomBackgroundColor,
     this.subtitleOpacity = 0.80,
@@ -56,189 +58,199 @@ class BannerListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
-    return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.circular(0),
-      child: Container(
-        width: width ?? screenwidth,
-        child: Material(
-          color: randomBackgroundColor == true ? color[num] : backgroundColor,
-          child: Container(
-            child: Stack(
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    imageContainer != null
-                        ? Align(
-                            alignment: Alignment.topLeft,
-                            child: ClipPath(
-                              clipper: ImageBoxClipper(
-                                  imageContainerShapeZigzagIndex),
-                              child: Container(
-                                height: imageContainerSize == null
-                                    ? 80
-                                    : imageContainerSize! > 190
-                                        ? 190
-                                        : imageContainerSize! < 80
-                                            ? 80
-                                            : imageContainerSize, //90 imageContainerSize
-                                width: imageContainerSize == null
-                                    ? 80
-                                    : imageContainerSize! > 190
-                                        ? 190
-                                        : imageContainerSize! < 80
-                                            ? 80
-                                            : imageContainerSize,
-                                color: Colors.white,
-                                child: imageContainer,
+    return Card(
+      shadowColor: Colors.red,
+      shape: RoundedRectangleBorder(
+        borderRadius: borderRadius ?? BorderRadius.circular(0),
+      ),
+      elevation: 8,
+      child: ClipRRect(
+        borderRadius: borderRadius ?? BorderRadius.circular(0),
+        child: Container(
+          height: height,
+          width: width ?? screenwidth,
+          child: Material(
+            color: randomBackgroundColor == true ? color[num] : backgroundColor,
+            child: Container(
+              child: Stack(
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      imageContainer != null
+                          ? Align(
+                              alignment: Alignment.topLeft,
+                              child: ClipPath(
+                                clipper: ImageBoxClipper(
+                                    imageContainerShapeZigzagIndex),
+                                child: Container(
+                                  height: imageContainerSize == null
+                                      ? 80
+                                      : imageContainerSize! > 190
+                                          ? 190
+                                          : imageContainerSize! < 80
+                                              ? 80
+                                              : imageContainerSize, //90 imageContainerSize
+                                  width: imageContainerSize == null
+                                      ? 80
+                                      : imageContainerSize! > 190
+                                          ? 190
+                                          : imageContainerSize! < 80
+                                              ? 80
+                                              : imageContainerSize,
+                                  color: Colors.white,
+                                  child: imageContainer,
+                                ),
                               ),
-                            ),
-                          )
-                        : SizedBox(width: 12),
-                    Flexible(
-                      fit: FlexFit.loose,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(
-                            left: 3, right: 3, top: 4, bottom: 4),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //  <------------------------------added here
-                            Row(
-                              children: [
-                                Flexible(
-                                  child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (title != null) title ?? Text(""),
-                                        if (subtitle != null)
-                                          Opacity(
-                                              opacity: subtitleOpacity ?? 0.8,
-                                              child: subtitle ?? Text("")),
-                                      ],
+                            )
+                          : SizedBox(width: 12),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(
+                              left: 3, right: 3, top: 4, bottom: 4),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //  <------------------------------added here
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (title != null) title ?? Text(""),
+                                          if (subtitle != null)
+                                            Opacity(
+                                                opacity: subtitleOpacity ?? 0.8,
+                                                child: subtitle ?? Text("")),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 70, //80
-                                )
-                              ],
-                            ),
-                            //  <------------------------------ to here
-
-                            // if (title != null) title ?? Text(""),
-                            // if (subtitle != null)
-                            //   Opacity(
-                            //       opacity: subtitleOpacity ?? 0.8,
-                            //       child: subtitle ?? Text("")),
-                          ],
-                        ),
-                      ),
-                    ),
-                    trailing != null
-                        ? //                          >Trailing portion
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Container(
-                                alignment: Alignment.center,
-                                height: centerTrailingbyImageboxsize == null ||
-                                        centerTrailingbyImageboxsize == false
-                                    ? 80
-                                    : imageContainerSize, //80
-                                width: trailingBoxwidth != null
-                                    ? trailingBoxwidth! < 50
-                                        ? 50
-                                        : trailingBoxwidth
-                                    : 50,
-                                child:
-                                    trailing ?? SizedBox(width: 0, height: 0)),
-                          )
-                        : SizedBox(width: 12),
-                  ],
-                ),
-                if (showBanner ==
-                    true) //                               >Banner implementation
-                  Positioned(
-                    top: 0,
-                    left: bannerPositionRight == false ? 0 : null,
-                    right: bannerPositionRight == true ||
-                            bannerPositionRight == null
-                        ? 0
-                        : null,
-                    child: ClipPath(
-                      clipper: BannerClipper(bannerPositionRight),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: bannerColor ?? Color(0xffcf0517),
-                        ),
-                        height: bannersize == null
-                            ? 40
-                            : bannersize! >= 80
-                                ? 80
-                                : bannersize! <= 40
-                                    ? 40.0
-                                    : bannersize!, //40
-                        width: bannersize == null
-                            ? 40
-                            : bannersize! >= 80
-                                ? 80
-                                : bannersize! <= 40
-                                    ? 40.0
-                                    : bannersize!,
-                        child: Align(
-                            //                                     >Banner alignment
-                            alignment: bannerPositionRight == false
-                                ? Alignment.topLeft
-                                : Alignment.topRight,
-                            child: Transform.rotate(
-                              //                     >Banner Text Rotate
-                              angle: bannerPositionRight == false
-                                  ? -math.pi / 4
-                                  : math.pi / 4,
-                              child: Container(
-                                height: bannersize == null
-                                    ? 30
-                                    : bannersize! >= 80
-                                        ? (30.0 * 80.0) / 40.0
-                                        : bannersize! <= 40
-                                            ? (30.0 * 40.0) / 40.0
-                                            : (30.0 * bannersize!) / 40.0, //30
-                                width: bannersize == null
-                                    ? 30
-                                    : bannersize! >= 80
-                                        ? (30.0 * 80.0) / 40.0
-                                        : bannersize! <= 40
-                                            ? (30.0 * 40.0) / 40.0
-                                            : (30.0 * bannersize!) / 40.0,
-                                child: FittedBox(
-                                    alignment: Alignment.center,
-                                    fit: BoxFit.contain,
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 2,
-                                            top: 2,
-                                            left: 2,
-                                            bottom: 4),
-                                        child: Text(
-                                          //                    >Banner Text
-                                          bannerText ?? "New",
-                                          style: TextStyle(
-                                              color: bannerTextColor ??
-                                                  Colors.yellow),
-                                        ))),
+                                  SizedBox(
+                                    height: 70, //80
+                                  )
+                                ],
                               ),
-                            )),
+                              //  <------------------------------ to here
+
+                              // if (title != null) title ?? Text(""),
+                              // if (subtitle != null)
+                              //   Opacity(
+                              //       opacity: subtitleOpacity ?? 0.8,
+                              //       child: subtitle ?? Text("")),
+                            ],
+                          ),
+                        ),
+                      ),
+                      trailing != null
+                          ? //                          >Trailing portion
+                          Align(
+                              alignment: Alignment.topRight,
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  height: centerTrailingbyImageboxsize ==
+                                              null ||
+                                          centerTrailingbyImageboxsize == false
+                                      ? 80
+                                      : imageContainerSize, //80
+                                  width: trailingBoxwidth != null
+                                      ? trailingBoxwidth! < 50
+                                          ? 50
+                                          : trailingBoxwidth
+                                      : 50,
+                                  child: trailing ??
+                                      SizedBox(width: 0, height: 0)),
+                            )
+                          : SizedBox(width: 12),
+                    ],
+                  ),
+                  if (showBanner ==
+                      true) //                               >Banner implementation
+                    Positioned(
+                      top: 0,
+                      left: bannerPositionRight == false ? 0 : null,
+                      right: bannerPositionRight == true ||
+                              bannerPositionRight == null
+                          ? 0
+                          : null,
+                      child: ClipPath(
+                        clipper: BannerClipper(bannerPositionRight),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: bannerColor ?? Color(0xffcf0517),
+                          ),
+                          height: bannersize == null
+                              ? 40
+                              : bannersize! >= 80
+                                  ? 80
+                                  : bannersize! <= 40
+                                      ? 40.0
+                                      : bannersize!, //40
+                          width: bannersize == null
+                              ? 40
+                              : bannersize! >= 80
+                                  ? 80
+                                  : bannersize! <= 40
+                                      ? 40.0
+                                      : bannersize!,
+                          child: Align(
+                              //                                     >Banner alignment
+                              alignment: bannerPositionRight == false
+                                  ? Alignment.topLeft
+                                  : Alignment.topRight,
+                              child: Transform.rotate(
+                                //                     >Banner Text Rotate
+                                angle: bannerPositionRight == false
+                                    ? -math.pi / 4
+                                    : math.pi / 4,
+                                child: Container(
+                                  height: bannersize == null
+                                      ? 30
+                                      : bannersize! >= 80
+                                          ? (30.0 * 80.0) / 40.0
+                                          : bannersize! <= 40
+                                              ? (30.0 * 40.0) / 40.0
+                                              : (30.0 * bannersize!) /
+                                                  40.0, //30
+                                  width: bannersize == null
+                                      ? 30
+                                      : bannersize! >= 80
+                                          ? (30.0 * 80.0) / 40.0
+                                          : bannersize! <= 40
+                                              ? (30.0 * 40.0) / 40.0
+                                              : (30.0 * bannersize!) / 40.0,
+                                  child: FittedBox(
+                                      alignment: Alignment.center,
+                                      fit: BoxFit.contain,
+                                      child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 2,
+                                              top: 2,
+                                              left: 2,
+                                              bottom: 4),
+                                          child: Text(
+                                            //                    >Banner Text
+                                            bannerText ?? "New",
+                                            style: TextStyle(
+                                                color: bannerTextColor ??
+                                                    Colors.yellow),
+                                          ))),
+                                ),
+                              )),
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
