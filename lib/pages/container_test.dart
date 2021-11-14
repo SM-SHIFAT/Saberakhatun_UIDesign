@@ -1,36 +1,115 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-//enum BannerPosition { left, right }
-
 class BannerListTile extends StatelessWidget {
+  ///Banner position will be set [Left or Right] by value [false or true]
   final bool? bannerPositionRight;
+
+  ///Show Banner on top corner or not.
   final bool? showBanner;
+
+  ///Text that shown on the banner.
   final String? bannerText;
+
+  ///Banner text color. [bannerTextColor = Colors.red]
   final Color? bannerTextColor;
+
+  ///Banner foreground color.
   final Color? bannerColor;
+
+  ///Tile foreground color.
   final Color? backgroundColor;
+
+  ///Title text takes a Text() widget.
   final Text? title;
+
+  ///Subtitle text takes a widget.
+  ///A [Row with iconbuttons] or a [Text()] widget is suggested to use here.
   final Widget? subtitle;
+
+  ///Border radius
+  ///```dart
+  ///borderRadius = BorderRadius.circular(8);
+  ///```
   final BorderRadius? borderRadius;
+
+  ///Image Container
+  ///```dart
+  ///imageContainer = Image(image: AssetImage("image.jpg"),fit: BoxFit.cover,),;
+  ///```
   final Widget? imageContainer;
+
+  ///Image container size [80 <= size <= 190]
   final double? imageContainerSize;
+
+  ///This will create image container shape like [ /  or  \ ].
+  ///Just give a even number or odd number.
+  ///While used in listview just pass it the index.
+  ///```dart
+  ///imageContainerShapeZigzagIndex = index;
+  ///```
   final int? imageContainerShapeZigzagIndex;
+
+  ///Add trailing widget. A [IconButton] is suggested.
   final Widget? trailing;
-  final bool? centerTrailingbyImageboxsize;
+
+  ///Trailing box width.
+  ///give a width if you need more width to contain your items.
   final double? trailingBoxwidth;
+
+  ///If true, then it will keep trailing widget in the center of BannerListTile vertically.
+  final bool? centerTrailingbyImageboxsize;
+
+  ///margin used around [BannerListTile].
+  final EdgeInsetsGeometry? margin;
+
+  ///borderside customize the border color, width, border style etc.
+  ///```dart
+  ///borderside = BorderSide(
+  ///color: Colors.amber,
+  ///width: 1,
+  ///style: BorderStyle.solid
+  ///),
+  ///```
+  final BorderSide? borderside;
+
+  ///Add shadow
+  final double? elevation;
+
+  ///BannerListTile width
   final double? width;
+
+  ///[Height] not needed if used in Column, listview or any vertical list view.
+  ///otherwise a height value is needed or it will take all the available height.
   final double? height;
+
+  ///Set the opacity of subtitle widget.
+  ///```dart
+  ///subtitleOpacity = 0.80,
+  ///```
   final double? subtitleOpacity;
+
+  ///Set banner size.
+  ///Height & Width will be 1:1 aspect ratio.
   final double? bannersize;
+
+  ///If true then it will choose a random color\
+  ///among these two:
+  ///```dart
+  ///Color(0xff003354)
+  ///Colors.blue
+  ///```
   final bool? randomBackgroundColor; //Change background color randomly
 
-  final List<Color> color = const [
-    Color(0xff003354),
-    Colors.blue
-  ]; //Backgroundcolor list
-  static int num = math.Random().nextInt(2); //takes a random number
+  ///Background color list
+  final List<Color> color = const [Color(0xff003354), Colors.blue];
+  static int num = math.Random().nextInt(2);
 
+  ///Suitable for use in column or listview or anykind of vertical list.
+  ///then it will automatically take a height by given child.
+  ///
+  ///Otherwise height & width must be given or it will take all the available space it get.
+  ///
   const BannerListTile({
     Key? key,
     this.bannerText,
@@ -41,6 +120,7 @@ class BannerListTile extends StatelessWidget {
     this.bannerColor,
     this.title,
     this.subtitle,
+    this.subtitleOpacity = 0.80,
     this.borderRadius,
     this.imageContainer,
     this.imageContainerSize = 80.0,
@@ -51,20 +131,24 @@ class BannerListTile extends StatelessWidget {
     this.backgroundColor = const Color(0xff003354),
     this.height,
     this.width,
+    this.margin,
+    this.elevation,
     this.randomBackgroundColor,
-    this.subtitleOpacity = 0.80,
+    this.borderside,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     return Card(
-      shadowColor: Colors.red,
+      margin: margin ?? EdgeInsets.all(0),
+      elevation: elevation ?? 0,
       shape: RoundedRectangleBorder(
-        borderRadius: borderRadius ?? BorderRadius.circular(0),
-      ),
-      elevation: 8,
+          borderRadius: borderRadius ?? BorderRadius.circular(0),
+          side: borderside ??
+              BorderSide.none), //Border.all(color: Colors.yellow,width: ),
       child: ClipRRect(
+        clipBehavior: Clip.antiAlias,
         borderRadius: borderRadius ?? BorderRadius.circular(0),
         child: Container(
           height: height,
@@ -75,7 +159,7 @@ class BannerListTile extends StatelessWidget {
               child: Stack(
                 children: [
                   Row(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       imageContainer != null
@@ -104,15 +188,15 @@ class BannerListTile extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SizedBox(width: 12),
+                          : const SizedBox(width: 12),
                       Flexible(
                         fit: FlexFit.loose,
                         child: Container(
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 3, right: 3, top: 4, bottom: 4),
                           child: Column(
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -126,16 +210,18 @@ class BannerListTile extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          if (title != null) title ?? Text(""),
+                                          if (title != null)
+                                            title ?? const Text(""),
                                           if (subtitle != null)
                                             Opacity(
                                                 opacity: subtitleOpacity ?? 0.8,
-                                                child: subtitle ?? Text("")),
+                                                child:
+                                                    subtitle ?? const Text("")),
                                         ],
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 70, //80
                                   )
                                 ],
@@ -168,9 +254,9 @@ class BannerListTile extends StatelessWidget {
                                           : trailingBoxwidth
                                       : 50,
                                   child: trailing ??
-                                      SizedBox(width: 0, height: 0)),
+                                      const SizedBox(width: 0, height: 0)),
                             )
-                          : SizedBox(width: 12),
+                          : const SizedBox(width: 12),
                     ],
                   ),
                   if (showBanner ==
@@ -186,7 +272,7 @@ class BannerListTile extends StatelessWidget {
                         clipper: BannerClipper(bannerPositionRight),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: bannerColor ?? Color(0xffcf0517),
+                            color: bannerColor ?? const Color(0xffcf0517),
                           ),
                           height: bannersize == null
                               ? 40

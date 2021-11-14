@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/apiservice/news_api_service.dart';
+import 'package:myapp/model/headline_topic.dart';
 import 'package:myapp/model/top_headline_model.dart';
 import 'package:myapp/pages/news_appbar.dart';
 import 'package:myapp/services/page_navigate_service.dart';
 import 'package:myapp/services/webview.dart';
 
-class TopNewsView extends StatefulWidget {
-  const TopNewsView({Key? key}) : super(key: key);
+class HeadlineTopic extends StatefulWidget {
+  const HeadlineTopic({Key? key}) : super(key: key);
 
   @override
-  State<TopNewsView> createState() => _TopNewsViewState();
+  State<HeadlineTopic> createState() => _HeadlineTopicState();
 }
 
-class _TopNewsViewState extends State<TopNewsView> {
+class _HeadlineTopicState extends State<HeadlineTopic> {
   bool tapped = false;
   int? indexx;
-  late Future<TopHeadlineModel> futureTopheadlineModel;
+  late Future<HeadlineTopicModel> futureHeadlineTopicModel;
   @override
   void initState() {
-    futureTopheadlineModel = NewsApiService().getTopHeadlines();
+    futureHeadlineTopicModel = NewsApiService().getHeadlineTopic();
 
     super.initState();
   }
@@ -29,8 +30,8 @@ class _TopNewsViewState extends State<TopNewsView> {
     return Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: FutureBuilder<TopHeadlineModel>(
-            future: futureTopheadlineModel,
+        child: FutureBuilder<HeadlineTopicModel>(
+            future: futureHeadlineTopicModel,
             builder: (buildContext, snapshot) {
               if (!snapshot.hasError) {
                 switch (snapshot.connectionState) {

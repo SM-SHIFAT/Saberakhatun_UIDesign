@@ -6,6 +6,7 @@ import 'News_dashboard.dart';
 
 class NewsDrawer extends StatelessWidget {
   const NewsDrawer({Key? key}) : super(key: key);
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _closeDrawer(context) {
     Navigator.of(context).pop();
@@ -63,7 +64,6 @@ class NewsDrawer extends StatelessWidget {
           ListTile(
             selectedTileColor: Colors.blueGrey,
             onTap: () {
-              ;
               _closeDrawer(context);
             },
             leading: Icon(Icons.search_rounded),
